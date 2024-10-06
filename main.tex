@@ -31,6 +31,8 @@ to \textwidth{\thepage\hfil\strut\leftmark}\hrule}}}
 \renewcommand{\@oddhead}{\raisebox{0pt}[\headheight][0pt]{\vbox{\hbox
 to \textwidth{\rightmark\hfil\strut\thepage}\hrule}}}
 \makeatother
+
+\usepackage{algpseudocode}
 \def\tab{\hspace*{10mm}}
 \def\halftab{\hspace*{5mm}}
 %=========================================================
@@ -101,12 +103,8 @@ to \textwidth{\rightmark\hfil\strut\thepage}\hrule}}}
 % you may add as many lines as needed =============================
 %==================================================================
 \par
-First let us look at the heap sort algorithm//
+Think of when f(n) = 0...
 
-%==================================================================
-% This symbol indicates the end of the proof.
-%==================================================================
-\rightline{$\blacksquare$}
 
 %==================================================================
 \par
@@ -131,7 +129,47 @@ First let us look at the heap sort algorithm//
 % you may add as many lines as needed =============================
 %==================================================================
 \par
-First let us look at the heap sort algorithm//
+\begin{tabular}{|c|c|c|}
+    \hline
+    Line & Cost & Times\\
+    \hline
+    1 & c & 1\\
+    2 & c & n\\
+    3 & c & n - 1\\
+    4 & c & X\\
+    5 & c & Y\\
+    6 & c & Y\\
+    7 & 3c & n - 1\\
+    \hline
+\end{tabular}\\
+Since this is worst case time complexity we will assume that 
+The if statement will always be true upon execution thus 
+lines 5 and 6 have the same number of times ran.\\\\
+We'll start with the following expression for $T(n):$\\
+$T(n) = c + cn + c(n - 1) + cX + 2cY + 3c(n-1)$.\\
+$T(n) = cX + 2cY + cn + 4c(n - 1) + c$.\\
+First we will need to determine the runtime of X.\\
+We know that at minimum line 4 will execute n times to 
+check the for loop to execute.\\
+X will then execute $Z = (n - 1) + (n - 2) + (n - 3) + ... + 1$.\\
+As the required amount of comparisons will decrease by 1 each time.\\
+Thus, we can rewrite X as $X = \Sigma^{n - 1}_{i = 1} (n - i)$.\\
+We can compute the sum of X as $X = \frac{n(n - 1)}{2}$.\\
+Now we just need to compute the sum of Y.\\
+Each time, lines 5, 6 are executed we know it will 
+execute one less time than X because the final execution 
+of X is the terminating condition.\\
+$Y = \Sigma^{n - 1}_{i = 1} ((n - i) - 1)$\\
+Or $Y = \Sigma^{n - 1}_{i = 1} (n - i) - \Sigma^{n - 1}_{i = 1} 1$.\\
+Then $Y = \frac{n(n - 1)}{2} - \Sigma^{n - 1}_{i = 1} 1$.\\
+Summing 1 n-1 times gives us n-1 with a final result of.\\
+$Y = \frac{n(n - 1)}{2} - n + 1$.\\
+$Y = \frac{n^{2} - n}{2} - n + 1$.\\
+$Y = \frac{n^{2} - 3}{2} + 1$.\\
+Finally, we can substitue back in giving us T(n).\\
+$T(n) = c(\frac{n^{2} - n}{2}) + c(n^{2} - 3n) + 2c + cn + 4c(n - 1) + c$
+$T(n) = 3c\frac{n^{2} + n}{2} - 5c$.\\
+
 
 %==================================================================
 % This symbol indicates the end of the proof.
@@ -148,8 +186,14 @@ First let us look at the heap sort algorithm//
     %================================================================
     % INSERT PROBLEM NUMBER ON THE LINE BELOW <=====================
     %================================================================
-    3
+    3a
 }
+Using our pseudo-code notation, write an algorithm HEAPDELETE(A, i) that
+deletes the data in node number i and runs in O(lg n) time for an n-element
+heap. Of course, A remains a heap after deletion.
+It is crucial that you explain your algorithm clearly using comments. The grader
+will assume that the algorithm is incorrect if it is not clear.
+(By default, heaps are max-heaps, i.e., descending heaps.)
 
 \par
 \bigskip
@@ -161,6 +205,17 @@ First let us look at the heap sort algorithm//
 % you may add as many lines as needed =============================
 %==================================================================
 \par
+\hline
+HEAPDELETE(A, i)
+\hline
+\begin{algorithmic}
+    \State $s \gets A.size$
+    \State $A[i] \gets A[s]$ \coment{Assign A[i] as the last most element of the heap}
+    \State $A.size \gets A.size - 1$ \comment{Resize heap}
+    \While{$i > 1$} \comment{We know the root will always be the largest element}
+        \State {Heapify(A,i)} \comment{Restore the heap property if needed}
+        \state $i \gets \lfloor\frac{i}{2}\rfloor$ \comment{Get next parent}
+\end{algorithmic}
 
 %==================================================================
 % This symbol indicates the end of the proof.
@@ -178,8 +233,9 @@ First let us look at the heap sort algorithm//
     %================================================================
     % INSERT PROBLEM NUMBER ON THE LINE BELOW <=====================
     %================================================================
-    Full proof for heap sort
+    3b
 }
+Explain (no need to prove) why your algorithm attains the O(lg n) bound.
 
 \par
 \bigskip
@@ -191,7 +247,46 @@ First let us look at the heap sort algorithm//
 % you may add as many lines as needed =============================
 %==================================================================
 \par
-First let us look at the heap sort algorithm//
+\hline
+We know heapify has a runtime of $O(lg(n))$ if the heap property 
+needs to be restored initially at a given node i. Otherwise, 
+we need to check the parent of i. Since the heap property is the 
+previous lists at this point is assumed to have held true the 
+runtime of heapify is then $O(1)$ and instead relies on the 
+amount of nodes we need to run heapify on. We know at most 
+the amount of nodes required will be the height which is $lg(n)$.
+Thus, $O(lg(n))$ is our runtime in that case. Thus, in both cases 
+our runtime is $O(log(n))$.\\
+
+%==================================================================
+% This symbol indicates the end of the proof.
+%==================================================================
+\rightline{$\blacksquare$}
+
+%==================================================================
+\par
+%==================================================================
+
+\par
+\bigskip
+{\bf Problem
+    %================================================================
+    % INSERT PROBLEM NUMBER ON THE LINE BELOW <=====================
+    %================================================================
+    4
+}
+Full proof for heapsort
+\par
+\bigskip
+{\bf Proof:}
+%==================================================================
+% INSERT YOUR SOLUTION HERE
+%==================================================================
+% write your solution in the space below <=========================
+% you may add as many lines as needed =============================
+%==================================================================
+\par
+First let us look at the heap sort algorithm.\\
 
 %==================================================================
 % This symbol indicates the end of the proof.
