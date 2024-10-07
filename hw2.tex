@@ -26,8 +26,8 @@ not shared my answers or attempts at answers with anyone else.\\
 \section*{Problem 1}
 T/F There is no difference between $O(1)$ and $\Theta(1)$.\\\\
 
-No, consider $f(n) = 0$. While $f(n) = O(1)$ it is not 
-the case $f(n) = 1\Theta(1)$ this is because of how $Theta$ is defined.
+It is false, consider $f(n) = 0$. While $f(n) = O(1)$ it is not 
+the case $f(n) = \Theta(1)$ this is because of how $\Theta$ is defined.
 $c_{1} > 0$ however, in this case we cannot multiply such that $1c_{1} = 0$.
 To redefine this question There is no difference between $O(1)$ and $\Theta(1)$ when 
 $f(n) = c$ for some $c > 0$.\\
@@ -63,7 +63,7 @@ $T(n) = cX + 2cY + cn + 4c(n - 1) + c$.\\
 First we will need to determine the runtime of X.\\
 We know that at minimum line 4 will execute n times to 
 check the for loop to execute.\\
-X will then execute $Z = (n - 1) + (n - 2) + (n - 3) + ... + 1$.\\
+X will then execute $X = (n - 1) + (n - 2) + (n - 3) + ... + 1$.\\
 As the required amount of comparisons will decrease by 1 each time.\\
 Thus, we can rewrite X as $X = \Sigma^{n - 1}_{i = 1} (n - i)$.\\
 We can compute the sum of X as $X = \frac{n(n - 1)}{2}$.\\
@@ -117,7 +117,7 @@ we had the heap property swapping the nodes once will restore it. Thus
 it'll run h times giving us $O(lg(n))$.\\
 
 
-\section*{4}
+\section*{Problem 4}
 Full proof for heapsort\\\\
 
 First let us look at the heap sort algorithm.\\
