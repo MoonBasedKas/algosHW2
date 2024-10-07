@@ -1,14 +1,3 @@
-%==========================================================
-% DO NOT MODIFY THIS FILE <================================
-%==========================================================
-%
-% This is a LATEX template for the Homework in MATH 352
-% Just add your name in the space provided
-% and type your solutions to each problem in the space below
-%
-%==========================================================
-% DO NOT CHANGE ANYTHING ELSE <============================
-%==========================================================
 \documentclass[12pt]{article}
 %========================
 \def\cdate{{Fall 2020}}
@@ -51,7 +40,7 @@ to \textwidth{\rightmark\hfil\strut\thepage}\hrule}}}
     \bigskip
     \par
     \vspace{3cm}
-    \centerline{\Large\bf CSE 3044: INSERt}
+    \centerline{\Large\bf CSE 3044: Design and Analysis of Algorithms}
     \bigskip
     \centerline{\large\bf
     }
@@ -205,16 +194,14 @@ will assume that the algorithm is incorrect if it is not clear.
 % you may add as many lines as needed =============================
 %==================================================================
 \par
-\hline
 HEAPDELETE(A, i)
-\hline
 \begin{algorithmic}
     \State $s \gets A.size$
-    \State $A[i] \gets A[s]$ \coment{Assign A[i] as the last most element of the heap}
+    \State $A[i] \gets A[s]$ \comment{Assign A[i] as the last most element of the heap}
     \State $A.size \gets A.size - 1$ \comment{Resize heap}
     \While{$i > 1$} \comment{We know the root will always be the largest element}
         \State {Heapify(A,i)} \comment{Restore the heap property if needed}
-        \state $i \gets \lfloor\frac{i}{2}\rfloor$ \comment{Get next parent}
+        \State $i \gets \lfloor\frac{i}{2}\rfloor$ \comment{Get next parent}
 \end{algorithmic}
 
 %==================================================================
@@ -247,7 +234,6 @@ Explain (no need to prove) why your algorithm attains the O(lg n) bound.
 % you may add as many lines as needed =============================
 %==================================================================
 \par
-\hline
 We know heapify has a runtime of $O(lg(n))$ if the heap property 
 needs to be restored initially at a given node i. Otherwise, 
 we need to check the parent of i. Since the heap property is the 
@@ -287,13 +273,11 @@ Full proof for heapsort
 %==================================================================
 \par
 First let us look at the heap sort algorithm.\\
-\hline
 Heapsort(A)
-\hline
 \begin{algorithmic}
     \State $n \gets A.heapsize$
     \State BuildHeap(A)
-    \For $i \gets n$ downto 2
+    \For {$i \gets n$ downto 2}
         \State Exchange(A, 1, i)
         \State A.heapsize $gets $ A.heapsize - 1
         \State Heapify(A, 1)
@@ -303,25 +287,60 @@ We can construct a $T(n)$ of Heapsort with our given algorithm.
 We will represent BuildHeap as $B(n)$ and heapify as $h(n)$.
 Assuming each statement has a cost of c.\\
 
-$T(n) = nc + (n-1)h(n)c + 2c(n - 1) b(n)c + c$.\\
+$T(n) = nc + (n-1)h(n)c + 2c(n - 1) + b(n)c + c$.\\
 
 Let's begin by deteriming what $h(n)$ is. Starting by looking at the 
 heapify algorithm\\
-\hline
+
 Heapify(A ,i)
-\hline
 \begin{algorithmic}
     \State $l \gets left(i)$
     \State $r \gets right(i)$
-    \If $l \ge A.heapsize$ and $A[l] > A[i]$
+    \If {$l \ge A.heapsize$ and $A[l] > A[i]$}
         \state $largest \gets l$
-    \If $r \ge A.heapsize$ and $A[r] > A[largest]$
+    \If {$r \ge A.heapsize$ and $A[r] > A[largest]$}
         \state $largest \gets l$
-    \If $largest <> i$
+    \If {$largest <> i$}
         \state swap(A, i, largest)
         \state heapify(A, largest)
 \end{algorithmic}
 
+Since the heap is arranged as a tree and we go down by height 
+rather than by node we will instead use h(h).\\
+$h(h) = h(h - 1) + 8c$.\\
+$h(0) = 5c$
+So $h(h) = h(h - 2) + 16c$
+Repeating k times we get $h(h) = h(h - k) + 8kc$.\\
+If $k = h$ then $h(h) = h(0) + 8kc$.\\
+Finally $h(h) = 5c + 8hc$.\\
+Since the height in any tree is equal to $log_{2}(n) = h$.\\
+Finally, $h(h) = 5c + 8log_{2}(n)c$.\\
+Now let us look at buildheap.\\
+Buildheap(A)
+\begin{algorithmic}
+    \State $n \gets A.length$
+    \State $A.heapsize \gets n$
+    \For {$i \gets \lfloor \frac{n}{2} \rfloor$ downto 1}
+        \State Heapify(A,i)
+\end{algorithmic}
+
+Since the cost of heapify depends on the height of the tree we are heapifying. Let's define 
+the cost of heapify as x.\\
+We can arrange our cost as\\
+$\frac{n + 1}{4}(x) + \frac{n + 1}{8}(2x) + \frac{n + 1}{16}(3x) + ... + 1(c (log_{2}(n + 1)))$.\\
+$(n + 1)(\frac{1}{4} + \frac{1}{8} + \frac{1}{16}) + ... + \frac{1}{n + 1}$\\
+$\frac{n + 1}{2}(\frac{1}{2} + \frac{2}{4} + \frac{3}{8}) + ... + \frac{log(\frac{n + 1}{2})}{\frac{n + 1}{2}}$\\
+So $S = \Sigma_{i = 1}^{h} \frac{i}{2^{h}}$.\\
+And $2S = \frac{2i}{2^{i}} = \frac{i}{2^{h - 1}}$.\\
+$2S - S = \frac{i}{2^{i - 1}} - \frac{i}{2^{i}}$.\\
+$2S - S = \Sigma_{j = 1}^{h} \frac{j}{2^{j - 1}} - \frac{j - 1}{2^{j - 1}}$.\\
+$S = 1$.\\
+Thus $B(n) = O(n)$.\\
+
+Finally we can plug into our original equation and get the following.\\
+$T(n) = nc + (n-1)log(n)c + 2c(n - 1) + nc + c$.\\
+For $O(n)$ we will take the largest term thus,\\
+$T(n) = O(nlog(n))$.\\
 %==================================================================
 % This symbol indicates the end of the proof.
 %==================================================================
