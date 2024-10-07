@@ -26,8 +26,14 @@ not shared my answers or attempts at answers with anyone else.\\
 \section*{Problem 1}
 T/F There is no difference between $O(1)$ and $\Theta(1)$.\\\\
 
+No, consider $f(n) = 0$. While $f(n) = O(1)$ it is not 
+the case $f(n) = 1\Theta(1)$ this is because of how $Theta$ is defined.
+$c_{1} > 0$ however, in this case we cannot multiply such that $1c_{1} = 0$.
+To redefine this question There is no difference between $O(1)$ and $\Theta(1)$ when 
+$f(n) = c$ for some $c > 0$.\\
+
 \section*{Problem 2}
-Consider the following algorithm SORTX. Create columns Cost and #Times and add
+Consider the following algorithm SORTX. Create columns Cost and \# Times and add
 entries under them. Use those entries to compute the worst-case time complexity
 of SORTX. Assume a cost of 3c for the call to EXCHANGE, c for all other executable
 statements, and zero for comments.\\
@@ -99,14 +105,16 @@ HEAPDELETE(A, i)
 
 \subsection*{Part b}
 We know heapify has a runtime of $O(lg(n))$ if the heap property 
-needs to be restored initially at a given node i. Otherwise, 
-we need to check the parent of i. Since the heap property is the 
-previous lists at this point is assumed to have held true the 
-runtime of heapify is then $O(1)$ and instead relies on the 
-amount of nodes we need to run heapify on. We know at most 
-the amount of nodes required will be the height which is $lg(n)$.
-Thus, $O(lg(n))$ is our runtime in that case. Thus, in both cases 
-our runtime is $O(log(n))$.\\
+needs to be restored initially at a given node i. If not heapify 
+has a runtime of $O(1)$. If the heap property is still intact 
+from the switch it'll call itself as many times as the current 
+height - total height. Which will be lg(n). Otherwise, we'll 
+need to restore the heap property. If it is on the first node 
+it'll be $O(lg(n))$ and the reamining calls would have a runtime of 
+$O(1)$. If the property needs to be restored within one of the parent
+nodes heapify will only recurse in each call once as before the deletion 
+we had the heap property swapping the nodes once will restore it. Thus 
+it'll run h times giving us $O(lg(n))$.\\
 
 
 \section*{4}
@@ -124,12 +132,12 @@ Heapsort(A)
 \end{algorithmic}
 
 We can construct a $T(n)$ of Heapsort with our given algorithm.
-We will represent BuildHeap as $B(n)$ and heapify as $h(n)$.
+We will represent BuildHeap as $B(n)$ and heapify as $H(n)$.
 Assuming each statement has a cost of c.\\
 
-$T(n) = nc + (n-1)h(n)c + 2c(n - 1) + b(n)c + c$.\\
+$T(n) = nc + (n-1)H(n)c + 2c(n - 1) + b(n)c + c$.\\
 
-Let's begin by deteriming what $h(n)$ is. Starting by looking at the 
+Let's begin by deteriming what $H(n)$ is. Starting by looking at the 
 heapify algorithm\\
 
 Heapify(A ,i)
@@ -146,15 +154,15 @@ Heapify(A ,i)
 \end{algorithmic}
 
 Since the heap is arranged as a tree and we go down by height 
-rather than by node we will instead use h(h).\\
-$h(h) = h(h - 1) + 8c$.\\
-$h(0) = 5c$
-So $h(h) = h(h - 2) + 16c$
-Repeating k times we get $h(h) = h(h - k) + 8kc$.\\
-If $k = h$ then $h(h) = h(0) + 8kc$.\\
-Finally $h(h) = 5c + 8hc$.\\
+rather than by node we will instead use H(h).\\
+$H(h) = H(h - 1) + 8c$.\\
+$H(0) = 5c$
+So $H(h) = H(h - 2) + 16c$
+Repeating k times we get $H(h) = H(h - k) + 8kc$.\\
+If $k = h$ then $H(h) = H(0) + 8kc$.\\
+Finally $H(h) = 5c + 8hc$.\\
 Since the height in any tree is equal to $log_{2}(n) = h$.\\
-Finally, $h(h) = 5c + 8log_{2}(n)c$.\\
+Finally, $H(h) = 5c + 8log_{2}(n)c = O(log_{2}(n))$.\\
 Now let us look at buildheap.\\
 Buildheap(A)
 \begin{algorithmic}[1]
@@ -164,9 +172,8 @@ Buildheap(A)
         \State Heapify(A,i)
 \end{algorithmic}
 
-Since the cost of heapify depends on the height of the tree we are heapifying. Let's define 
-the cost of heapify as x.\\
-We can arrange our cost as\\
+Since the cost of heapify depends on the height of the tree we are heapifying. Since majority 
+of our calls will have a low cost. We can arrange our cost as\\
 $\frac{n + 1}{4}(x) + \frac{n + 1}{8}(2x) + \frac{n + 1}{16}(3x) + ... + 1(c (log_{2}(n + 1)))$.\\
 $(n + 1)(\frac{1}{4} + \frac{1}{8} + \frac{1}{16}) + ... + \frac{1}{n + 1}$\\
 $\frac{n + 1}{2}(\frac{1}{2} + \frac{2}{4} + \frac{3}{8}) + ... + \frac{log(\frac{n + 1}{2})}{\frac{n + 1}{2}}$\\
