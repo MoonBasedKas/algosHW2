@@ -287,6 +287,40 @@ Full proof for heapsort
 %==================================================================
 \par
 First let us look at the heap sort algorithm.\\
+\hline
+Heapsort(A)
+\hline
+\begin{algorithmic}
+    \State $n \gets A.heapsize$
+    \State BuildHeap(A)
+    \For $i \gets n$ downto 2
+        \State Exchange(A, 1, i)
+        \State A.heapsize $gets $ A.heapsize - 1
+        \State Heapify(A, 1)
+\end{algorithmic}
+
+We can construct a $T(n)$ of Heapsort with our given algorithm.
+We will represent BuildHeap as $B(n)$ and heapify as $h(n)$.
+Assuming each statement has a cost of c.\\
+
+$T(n) = nc + (n-1)h(n)c + 2c(n - 1) b(n)c + c$.\\
+
+Let's begin by deteriming what $h(n)$ is. Starting by looking at the 
+heapify algorithm\\
+\hline
+Heapify(A ,i)
+\hline
+\begin{algorithmic}
+    \State $l \gets left(i)$
+    \State $r \gets right(i)$
+    \If $l \ge A.heapsize$ and $A[l] > A[i]$
+        \state $largest \gets l$
+    \If $r \ge A.heapsize$ and $A[r] > A[largest]$
+        \state $largest \gets l$
+    \If $largest <> i$
+        \state swap(A, i, largest)
+        \state heapify(A, largest)
+\end{algorithmic}
 
 %==================================================================
 % This symbol indicates the end of the proof.
