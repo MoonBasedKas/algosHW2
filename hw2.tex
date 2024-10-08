@@ -21,7 +21,10 @@
 \section*{Statement}
 I certify that every answer in this assignment is the result of my own work; that
 I have neither copied off the Internet nor from any one else's work; and I have
-not shared my answers or attempts at answers with anyone else.\\
+not shared my answers or attempts at answers with anyone else.\\\\
+
+\section*{Notation}
+When writing $lg(n)$ we are referring to $log_{2}(n)$.\\
 
 \section*{Problem 1}
 T/F There is no difference between $O(1)$ and $\Theta(1)$.\\\\
@@ -79,7 +82,7 @@ $Y = \frac{n(n - 1)}{2} - n + 1$.\\
 $Y = \frac{n^{2} - n}{2} - n + 1$.\\
 $Y = \frac{n^{2} - 3}{2} + 1$.\\
 Finally, we can substitue back in giving us T(n).\\
-$T(n) = c(\frac{n^{2} - n}{2}) + c(n^{2} - 3n) + 2c + cn + 4c(n - 1) + c$
+$T(n) = c(\frac{n^{2} - n}{2}) + c(n^{2} - 3n) + 2c + cn + 4c(n - 1) + c$\\
 $T(n) = 3c\frac{n^{2} + n}{2} - 5c$.\\
 
 
@@ -104,17 +107,24 @@ HEAPDELETE(A, i)
 \end{algorithmic}
 
 \subsection*{Part b}
-We know heapify has a runtime of $O(lg(n))$ if the heap property 
-needs to be restored initially at a given node i. If not heapify 
-has a runtime of $O(1)$. If the heap property is still intact 
-from the switch it'll call itself as many times as the current 
-height - total height. Which will be lg(n). Otherwise, we'll 
-need to restore the heap property. If it is on the first node 
-it'll be $O(lg(n))$ and the reamining calls would have a runtime of 
-$O(1)$. If the property needs to be restored within one of the parent
-nodes heapify will only recurse in each call once as before the deletion 
-we had the heap property swapping the nodes once will restore it. Thus 
-it'll run h times giving us $O(lg(n))$.\\
+% FINISH LATER
+We know heapify has a time complexity of $O(lg(n))$.\\
+Next we'll have to construct a $T(n)$ for our algorithm.\\
+The parent will take the height of the tree which can be 
+presented as $lg(n)$.\\
+$T(n) = 2c + lg(n)c + H(n)lg(n - 1)c + lg(n - 1)c$.\\
+Let H(n) be the heapify algorithm which we know has a complexity 
+of $O(lg(n))$.\\
+$O(n) = lg(n)*lg(n)$.\\
+$0 \le lg(n)^{2} \le clg(n)$.\\
+Raising to a power of 2.\\
+$2^{0} \le 2^{lg(n)^{2}} \le 2^{lg(n)^{c}}$.\\
+$1 \le n^{2} \le n^{c}$.\\
+$1 \le n^{2} \le n^{2}$ where $c \ge 2$\\
+Thus $lg(n)^{2} = O(lg(n))$\\
+
+
+
 
 
 \section*{Problem 4}
